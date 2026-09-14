@@ -1,0 +1,32 @@
+---
+import { profileConfig } from '@/config/profile';
+import { Compass } from '@lucide/astro';
+---
+
+<div class="bento-card lg:col-span-2 lg:row-span-1 p-5 sm:p-6 flex flex-col justify-between">
+  <div class="flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400 mb-2">
+    <span class="font-medium tracking-wide uppercase flex items-center gap-1.5">
+      <Compass class="w-3.5 h-3.5 text-indigo-500" />
+      <span>{profileConfig.currentFocus.title}</span>
+    </span>
+    <span class="text-[11px] text-neutral-400">Roadmap</span>
+  </div>
+
+  <div class="my-auto py-1">
+    <p class="text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed mb-3">
+      {profileConfig.currentFocus.description}
+    </p>
+
+    <div class="flex flex-wrap gap-1.5">
+      {profileConfig.currentFocus.tags.map((tag) => (
+        <span class="text-[11px] font-mono px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60">
+          #{tag}
+        </span>
+      ))}
+    </div>
+  </div>
+
+  <div class="pt-2 text-[11px] text-neutral-400 dark:text-neutral-500">
+    <span>持续通过开源与深度文章沉淀工程实践</span>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+---
+import { profileConfig } from '@/config/profile';
+import Badge from '@/components/ui/Badge.astro';
+import { Cpu } from '@lucide/astro';
+
+const highlighted = profileConfig.techStack.filter(item => item.highlight);
+const others = profileConfig.techStack.filter(item => !item.highlight);
+---
+
+<div class="bento-card lg:col-span-2 lg:row-span-1 p-5 sm:p-6 flex flex-col justify-between">
+  <div class="flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400 mb-3">
+    <span class="font-medium tracking-wide uppercase flex items-center gap-1.5">
+      <Cpu class="w-3.5 h-3.5 text-indigo-500" />
+      <span>技术栈与核心工具</span>
+    </span>
+    <span class="text-[11px] text-neutral-400">Tech Stack</span>
+  </div>
+
+  <div class="flex flex-wrap gap-2 my-auto py-1">
+    {highlighted.map((tech) => (
+      <Badge variant="accent" size="md" class="hover:scale-105 transition-transform">
+        <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+        <span>{tech.name}</span>
+      </Badge>
+    ))}
+
+    {others.map((tech) => (
+      <Badge variant="default" size="md" class="hover:scale-105 transition-transform">
+        <span>{tech.name}</span>
+      </Badge>
+    ))}
+  </div>
+
+  <div class="pt-3 border-t border-neutral-100 dark:border-neutral-800/80 text-[11px] text-neutral-500 dark:text-neutral-400 flex items-center justify-between">
+    <span>以性能、可靠性与架构清晰度为核心考量</span>
+    <span class="text-neutral-400">14+ Tools</span>
+  </div>
+</div>

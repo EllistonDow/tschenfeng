@@ -1,0 +1,130 @@
+---
+import SEOHead from '@/components/seo/SEOHead.astro';
+import JsonLd from '@/components/seo/JsonLd.astro';
+import ThemeToggle from '@/components/ui/ThemeToggle.astro';
+import { profileConfig } from '@/config/profile';
+import '@/styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: {
+    pubDate: Date;
+    tags?: string[];
+  };
+}
+
+const { title, description, image, article } = Astro.props;
+const currentPath = Astro.url.pathname;
+const currentYear = new Date().getFullYear();
+
+const navItems = [
+  { label: '首页', href: '/' },
+  { label: '作品集', href: '/projects' },
+  { label: '文章', href: '/blog' },
+];
+---
+
+<!doctype html>
+<html lang={profileConfig.site.locale} class="scroll-smooth">
+  <head>
+    <SEOHead title={title} description={description} image={image} article={article} />
+    <JsonLd />
+    <!-- Zero-FOUC Synchronous Dark Mode Script -->
+    <script is:inline>
+      (function () {
+        try {
+          const storedTheme = localStorage.getItem('theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const isDark = storedTheme === 'dark' || (!storedTheme && prefersDark);
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {
+          // Fallback if localStorage is inaccessible
+        }
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col antialiased selection:bg-indigo-500/20 selection:text-indigo-600 dark:selection:text-indigo-300">
+    <!-- Ambient background gradient glows -->
+    <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+      <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-tr from-indigo-500/10 via-purple-500/5 to-transparent blur-3xl dark:from-indigo-600/15 dark:via-purple-600/10 rounded-full"></div>
+      <div class="absolute top-[600px] -left-40 w-[450px] h-[300px] bg-gradient-to-br from-blue-500/5 via-teal-500/5 to-transparent blur-3xl dark:from-blue-600/10 dark:via-teal-600/5 rounded-full"></div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/70 dark:bg-neutral-950/70 border-b border-neutral-200/60 dark:border-neutral-800/60 transition-colors">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+        <!-- Logo -->
+        <a href="/" class="group flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-950 font-bold text-sm flex items-center justify-center shadow-xs transition-transform group-hover:scale-105 shrink-0">
+            TF
+          </div>
+          <div class="hidden sm:flex flex-col">
+            <span class="text-sm font-semibold tracking-tight text-neutral-900 dark:text-white leading-none">
+              tschenfeng<span class="text-indigo-500 dark:text-indigo-400">.com</span>
+            </span>
+            <span class="text-[11px] text-neutral-500 dark:text-neutral-400 font-normal">
+              {profileConfig.personal.name}
+            </span>
+          </div>
+        </a>
+
+        <!-- Nav Links & Theme Toggle -->
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          <nav class="flex items-center gap-0.5 sm:gap-1 p-1 bg-neutral-100/80 dark:bg-neutral-900/80 rounded-xl border border-neutral-200/60 dark:border-neutral-800/80">
+            {navItems.map((item) => {
+              const isActive = item.href === '/' ? currentPath === '/' : currentPath.startsWith(item.href);
+              return (
+                <a
+                  href={item.href}
+                  class:list={[
+                    'whitespace-nowrap px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg font-medium transition-all text-xs sm:text-sm',
+                    isActive
+                      ? 'bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white shadow-xs'
+                      : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white',
+                  ]}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
+          </nav>
+
+          <div class="ml-1 sm:ml-2">
+            <ThemeToggle />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+      <slot />
+    </main>
+
+    <!-- Site Footer -->
+    <footer class="w-full border-t border-neutral-200/60 dark:border-neutral-800/60 bg-white/40 dark:bg-neutral-950/40 py-8 text-xs text-neutral-500 dark:text-neutral-400 transition-colors">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <span>&copy; {currentYear} {profileConfig.personal.name}</span>
+          <span>&middot;</span>
+          <span class="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse-subtle"></span>
+            All systems operational
+          </span>
+        </div>
+
+        <div class="flex items-center gap-4 text-xs font-medium">
+          <a href="/rss.xml" class="hover:text-neutral-900 dark:hover:text-white transition-colors" target="_blank" rel="noopener">RSS Feed</a>
+          <a href="/sitemap-index.xml" class="hover:text-neutral-900 dark:hover:text-white transition-colors" target="_blank" rel="noopener">Sitemap</a>
+          <a href={profileConfig.socials.find(s => s.icon === 'github')?.url || 'https://github.com'} class="hover:text-neutral-900 dark:hover:text-white transition-colors" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

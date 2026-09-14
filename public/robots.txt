@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tschenfeng.com/sitemap-index.xml

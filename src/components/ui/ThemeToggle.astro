@@ -1,0 +1,19 @@
+---
+import { Sun, Moon } from '@lucide/astro';
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  onclick="const isDark = document.documentElement.classList.toggle('dark'); localStorage.setItem('theme', isDark ? 'dark' : 'light');"
+  aria-label="切换色彩主题"
+  title="切换色彩主题"
+  class="relative inline-flex items-center justify-center w-9 h-9 rounded-xl border border-neutral-200/90 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:border-neutral-300 dark:hover:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800/80 transition-all cursor-pointer shadow-xs"
+>
+  <span class="dark:hidden flex items-center justify-center pointer-events-none">
+    <Sun class="w-4 h-4 text-amber-500" />
+  </span>
+  <span class="hidden dark:flex items-center justify-center pointer-events-none">
+    <Moon class="w-4 h-4 text-indigo-400" />
+  </span>
+</button>

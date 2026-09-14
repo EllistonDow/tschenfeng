@@ -1,0 +1,30 @@
+---
+import { profileConfig } from '@/config/profile';
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": profileConfig.personal.name,
+  "alternateName": profileConfig.personal.nativeName,
+  "jobTitle": profileConfig.personal.title,
+  "url": profileConfig.site.url,
+  "image": profileConfig.personal.avatarUrl,
+  "sameAs": profileConfig.socials.map((s) => s.url).filter((u) => u.startsWith('http')),
+  "description": profileConfig.personal.shortBio,
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": profileConfig.site.title,
+  "url": profileConfig.site.url,
+  "description": profileConfig.site.description,
+  "author": {
+    "@type": "Person",
+    "name": profileConfig.personal.name
+  }
+};
+---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(personSchema)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(websiteSchema)} />

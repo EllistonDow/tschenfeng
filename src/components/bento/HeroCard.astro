@@ -1,0 +1,78 @@
+---
+import { profileConfig } from '@/config/profile';
+import Badge from '@/components/ui/Badge.astro';
+import { ArrowUpRight, Mail } from '@lucide/astro';
+---
+
+<div class="bento-card lg:col-span-2 lg:row-span-2 p-6 sm:p-8 flex flex-col justify-between">
+  <!-- Top: Status & Avatar -->
+  <div>
+    <div class="flex items-start justify-between gap-4 mb-6">
+      <!-- Avatar with subtle ring -->
+      <div class="relative">
+        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden border-2 border-white dark:border-neutral-800 shadow-md">
+          <img
+            src={profileConfig.personal.avatarUrl}
+            alt={profileConfig.personal.name}
+            class="w-full h-full object-cover"
+            loading="eager"
+          />
+        </div>
+        <div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-white dark:border-neutral-900 flex items-center justify-center shadow-xs">
+          <div class="w-2 h-2 rounded-full bg-white dark:bg-neutral-900"></div>
+        </div>
+      </div>
+
+      <!-- Availability Badge -->
+      {profileConfig.personal.availableForWork && (
+        <Badge variant="success" size="md">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse-subtle"></span>
+          <span>{profileConfig.personal.statusText}</span>
+        </Badge>
+      )}
+    </div>
+
+    <!-- Title & Names -->
+    <div class="mb-4">
+      <div class="flex items-baseline gap-2 mb-1">
+        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+          {profileConfig.personal.name}
+        </h1>
+        <span class="text-sm font-medium text-neutral-400 dark:text-neutral-500">
+          ({profileConfig.personal.nativeName})
+        </span>
+      </div>
+      <p class="text-xs sm:text-sm font-semibold tracking-wide text-indigo-600 dark:text-indigo-400 uppercase">
+        {profileConfig.personal.title}
+      </p>
+    </div>
+
+    <!-- Headline and Bio -->
+    <p class="text-base sm:text-lg font-medium text-neutral-800 dark:text-neutral-200 leading-snug mb-3">
+      {profileConfig.personal.headline}
+    </p>
+
+    <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6">
+      {profileConfig.personal.shortBio}
+    </p>
+  </div>
+
+  <!-- Bottom CTA Buttons -->
+  <div class="pt-4 border-t border-neutral-100 dark:border-neutral-800/80 flex flex-wrap items-center gap-3">
+    <a
+      href="/projects"
+      class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-950 text-xs sm:text-sm font-semibold hover:bg-neutral-800 dark:hover:bg-neutral-100 transition-all shadow-xs group"
+    >
+      <span>查看精选作品</span>
+      <ArrowUpRight class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+    </a>
+
+    <a
+      href="mailto:contact@tschenfeng.com"
+      class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white/60 dark:bg-neutral-900/60 text-neutral-700 dark:text-neutral-300 text-xs sm:text-sm font-medium hover:bg-neutral-100/80 dark:hover:bg-neutral-800/80 hover:text-neutral-900 dark:hover:text-white transition-all shadow-xs"
+    >
+      <Mail class="w-4 h-4" />
+      <span>联系沟通</span>
+    </a>
+  </div>
+</div>
