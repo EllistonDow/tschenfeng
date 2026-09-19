@@ -9,44 +9,28 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
 
 <!-- Magnetic Profile Dock Wrapper -->
 <div id="magnetic-profile-root" class="relative">
-  <!-- 1. Collapsed Pill Trigger (Docked Left on Desktop, Thumb-friendly Bottom on Mobile) -->
+  <!-- 1. Collapsed Magnetic Image Trigger (Floating Left on Desktop, Thumb-friendly Bottom on Mobile) -->
   <button
     id="profile-trigger"
     type="button"
     aria-expanded="false"
     aria-controls="profile-card"
-    class="fixed bottom-5 left-4 sm:left-6 lg:bottom-auto lg:top-24 lg:left-8 xl:left-12 z-30 group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl border border-neutral-200/90 dark:border-neutral-800/90 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md shadow-lg hover:shadow-2xl hover:border-neutral-300 dark:hover:border-neutral-700 transition-all duration-300 hover:scale-105 cursor-pointer"
+    aria-label="查看个人资料 - Tschen Feng"
+    title="查看个人资料 - Tschen Feng"
+    class="fixed bottom-5 left-4 sm:left-6 lg:bottom-auto lg:top-24 lg:left-8 xl:left-12 z-30 group relative p-1 rounded-2xl border border-neutral-200/80 dark:border-neutral-800/80 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md shadow-lg hover:shadow-2xl hover:border-neutral-300 dark:hover:border-neutral-700 transition-all duration-300 hover:scale-110 cursor-pointer"
   >
-    <div class="relative shrink-0">
-      <div class="w-8 h-8 rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-700">
-        <img
-          src={profileConfig.personal.avatarUrl}
-          alt={profileConfig.personal.name}
-          class="w-full h-full object-cover"
-          loading="eager"
-        />
-      </div>
-      <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white dark:border-neutral-900"></span>
+    <div class="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden shadow-xs">
+      <img
+        src={profileConfig.personal.avatarUrl}
+        alt={profileConfig.personal.name}
+        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        loading="eager"
+      />
     </div>
-
-    <div class="text-left">
-      <div class="flex items-center gap-1.5">
-        <span class="text-xs font-semibold text-neutral-900 dark:text-white leading-tight">
-          {profileConfig.personal.name}
-        </span>
-        <span class="text-[10px] font-mono text-neutral-400">
-          ({profileConfig.personal.nativeName})
-        </span>
-      </div>
-      <span class="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1 leading-none mt-0.5">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse-subtle"></span>
-        <span>开放合作</span>
-      </span>
-    </div>
-
-    <div class="ml-1 text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">
-      <ChevronRight class="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-    </div>
+    <!-- Active Status Pulse Dot -->
+    <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white dark:border-neutral-900 shadow-xs flex items-center justify-center">
+      <span class="w-1.5 h-1.5 rounded-full bg-white dark:bg-neutral-900 animate-pulse-subtle"></span>
+    </span>
   </button>
 
   <!-- 2. Overlay Backdrop for Click-Outside (Mobile & Desktop) -->
