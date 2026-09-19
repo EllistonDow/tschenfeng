@@ -15,8 +15,8 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
     type="button"
     aria-expanded="false"
     aria-controls="profile-card"
-    aria-label="查看个人资料 - Tschen Feng"
-    title="查看个人资料 - Tschen Feng"
+    aria-label={`查看个人资料 - ${profileConfig.personal.name}`}
+    title={`查看个人资料 - ${profileConfig.personal.name}`}
     class="fixed bottom-5 left-4 sm:left-6 lg:bottom-auto lg:top-24 lg:left-8 xl:left-12 z-30 group relative p-1 rounded-2xl border border-neutral-200/80 dark:border-neutral-800/80 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md shadow-lg hover:shadow-2xl hover:border-neutral-300 dark:hover:border-neutral-700 transition-all duration-300 hover:scale-110 cursor-pointer"
   >
     <div class="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden shadow-xs">
@@ -80,9 +80,11 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
           <h2 class="text-xl font-bold text-neutral-900 dark:text-white">
             {profileConfig.personal.name}
           </h2>
-          <span class="text-xs text-neutral-400 dark:text-neutral-500">
-            ({profileConfig.personal.nativeName})
-          </span>
+          {profileConfig.personal.nativeName && (
+            <span class="text-xs text-neutral-400 dark:text-neutral-500">
+              ({profileConfig.personal.nativeName})
+            </span>
+          )}
         </div>
         <p class="text-xs font-medium text-neutral-500 dark:text-neutral-400">
           {profileConfig.personal.title}

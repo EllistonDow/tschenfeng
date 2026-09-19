@@ -22,7 +22,7 @@ export interface ProfileConfig {
   };
   personal: {
     name: string;
-    nativeName: string;
+    nativeName?: string;
     title: string;
     headline: string;
     shortBio: string;
@@ -44,16 +44,16 @@ export interface ProfileConfig {
 
 export const profileConfig: ProfileConfig = {
   site: {
-    title: "Tschen Feng | AI FDE & 跨境电商出海架构师",
-    description: "Tschen Feng (陈丰) 个人主页与工程思考。专注于企业级 AI 前向部署（AI Forward Deployed Engineer）与跨境电商出海全链路智能体自动化架构。",
+    title: "Austin | AI FDE & 跨境电商出海架构师",
+    description: "Austin 个人主页与工程思考。专注于企业级 AI 前向部署（AI Forward Deployed Engineer）与跨境电商出海全链路智能体自动化架构。",
     url: "https://tschenfeng.com",
-    author: "Tschen Feng",
+    author: "Austin",
     locale: "zh-CN",
     ogImage: "/og-image.png",
   },
   personal: {
-    name: "Tschen Feng",
-    nativeName: "陈丰",
+    name: "Austin",
+    nativeName: "",
     title: "AI Forward Deployed Engineer · 跨境电商架构师",
     headline: "以前向工程战力，将高可靠 AI Agent 智能体系统扎根于跨境电商出海的真实商业战场。",
     shortBio: "兼具全球出海业务操盘经验与企业级 AI 前向部署（FDE）工程实践。专注于用确定性工作流、状态机与多智能体系统，解决出海增长、自动化履约与多渠道复杂供应链痛点。",
@@ -65,7 +65,7 @@ export const profileConfig: ProfileConfig = {
     timezone: "Asia/Shanghai",
     availableForWork: true,
     statusText: "开放技术咨询与出海商业合作",
-    avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=320&auto=format&fit=crop",
+    avatarUrl: "/avatar.jpg",
   },
   socials: [
     {

@@ -5,7 +5,7 @@ const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   "name": profileConfig.personal.name,
-  "alternateName": profileConfig.personal.nativeName,
+  ...(profileConfig.personal.nativeName ? { "alternateName": profileConfig.personal.nativeName } : {}),
   "jobTitle": profileConfig.personal.title,
   "url": profileConfig.site.url,
   "image": profileConfig.personal.avatarUrl,
