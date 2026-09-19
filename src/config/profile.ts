@@ -7,7 +7,7 @@ export interface SocialLink {
 
 export interface TechItem {
   name: string;
-  category: 'core' | 'frontend' | 'backend' | 'infra' | 'commerce' | 'mobile';
+  category: 'core' | 'frontend' | 'backend' | 'infra' | 'commerce' | 'mobile' | 'growth';
   highlight?: boolean;
 }
 
@@ -45,7 +45,7 @@ export interface ProfileConfig {
 export const profileConfig: ProfileConfig = {
   site: {
     title: "Austin | AI FDE & 全球电商与云原生系统架构师",
-    description: "Austin 个人主页与工程思考。横跨 AI 前向部署（AI FDE）、Kubernetes 云原生基础设施、全渠道电商体系（Shopify / Saleor / Magento 2）与 iOS / Android 双端开发。",
+    description: "Austin 个人主页与工程思考。横跨 AI 前向部署（AI FDE）、Kubernetes 云原生、全渠道电商体系（Shopify / Saleor / Magento 2）、TanStack 全家桶、iOS / Android 双端开发及 PWA / SEO / GEO 增长工程。",
     url: "https://tschenfeng.com",
     author: "Austin",
     locale: "zh-CN",
@@ -54,13 +54,13 @@ export const profileConfig: ProfileConfig = {
   personal: {
     name: "Austin",
     nativeName: "",
-    title: "AI Forward Deployed Engineer · 全球电商系统架构师",
-    headline: "深耕 Kubernetes 云原生底座、全渠道电商（Shopify / Saleor / Magento 2）与双端研发（iOS / Android），以 AI FDE 战力驱动全球出海实战。",
-    shortBio: "横跨生产级 Kubernetes 集群治理、企业级与无头电商体系（Magento 2 / Saleor / Shopify）、双端移动研发（iOS / Android）及高可靠 AI Agent 前向部署。专注于突破出海与全球化商业全链路工程瓶颈。",
+    title: "AI Forward Deployed Engineer · 全球电商与云原生架构师",
+    headline: "深耕 Kubernetes 云原生底座、全渠道电商（Shopify / Saleor / Magento 2）、TanStack 全栈工程、双端移动（iOS / Android）与 SEO / GEO 增长，以 AI FDE 前向战力驱动全球出海实战。",
+    shortBio: "横跨生产级 Kubernetes 集群治理、企业级与无头电商（Magento 2 / Saleor / Shopify）、TanStack 全家桶现代前端架构、双端研发（iOS / Android / PWA）与全球 SEO / GEO（生成式 AI 搜索引擎优化）。深度融合企业级 AI Agent 前向部署，打通出海全链路商业工程闭环。",
     fullBio: [
-      "AI FDE & 智能体工程：深入前线业务，基于 LLM、状态机与 MCP 协议打造高韧性、具备自我纠错与长流程调度的企业级 Agent 生产力。",
-      "全渠道电商底座：深度主导并交付过 Magento 2 企业级系统、Saleor 无头 GraphQL 高性能架构、Shopify DTC 品牌站及全套跨平台履约供应链。",
-      "云原生基础设施与移动端：具备生产级多架构 Kubernetes 集群运维与高可用调优经验，主导过覆盖 iOS & Android 的移动端电商与工具应用研发。"
+      "AI FDE & 智能体工程：深入复杂业务前线，基于 LLM、状态机与 MCP 协议打造高韧性、具备自我纠错与长流程调度的企业级 Agent 生产力。",
+      "全渠道电商与前端架构：深度交付 Magento 2 企业级电商系统、Saleor 无头 GraphQL 高性能架构、Shopify DTC 品牌矩阵，精通 TanStack 全家桶（Query / Router / Table / Virtual / Form）与 PWA 渐进式 Web 应用。",
+      "基础设施与全球增长：掌舵生产级多架构 Kubernetes 集群治理与 Cloudflare 边缘加速，精通全球化 SEO 与 GEO（生成式 AI 搜索引擎优化 / Perplexity & ChatGPT Search 索引优化），主导 iOS & Android 双端原生与跨平台应用研发。"
     ],
     location: "Shanghai, China",
     timezone: "Asia/Shanghai",
@@ -99,20 +99,20 @@ export const profileConfig: ProfileConfig = {
     { name: "Shopify / DTC", category: "commerce", highlight: true },
     { name: "Saleor (GraphQL)", category: "commerce", highlight: true },
     { name: "Magento 2", category: "commerce", highlight: true },
+    { name: "TanStack 全家桶", category: "frontend", highlight: true },
     { name: "iOS & Android", category: "mobile", highlight: true },
+    { name: "SEO & GEO (AI Search)", category: "growth", highlight: true },
+    { name: "PWA / Offline", category: "mobile", highlight: true },
     { name: "AI Agents / FDE", category: "core", highlight: true },
     { name: "Cloudflare Workers", category: "infra", highlight: true },
-    { name: "TypeScript", category: "core", highlight: true },
-    { name: "Python", category: "core", highlight: true },
+    { name: "TypeScript / Python", category: "core", highlight: true },
     { name: "Astro", category: "frontend", highlight: true },
     { name: "Docker", category: "infra" },
-    { name: "PostgreSQL", category: "backend" },
-    { name: "Redis", category: "backend" },
-    { name: "React / Node.js", category: "frontend" },
+    { name: "PostgreSQL / Redis", category: "backend" },
   ],
   currentFocus: {
     title: "探索方向 & 近期关注",
-    description: "正在探索在 Kubernetes 上运行自主 Agent 集群，深度打通 Saleor / Shopify 核心数据流，并驱动 iOS / Android 双端下一代电商 AI 交互体验。",
-    tags: ["Kubernetes", "AI FDE", "Saleor", "Shopify", "Magento 2", "iOS / Android"],
+    description: "构建基于 Kubernetes + TanStack + PWA 的下一代无头电商与多智能体协同底座，深度结合 GEO（生成式 AI 搜索引擎优化）与出海私域增长体系。",
+    tags: ["Kubernetes", "AI FDE", "TanStack", "Saleor", "Shopify", "GEO / SEO", "PWA"],
   },
 };
