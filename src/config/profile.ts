@@ -7,7 +7,7 @@ export interface SocialLink {
 
 export interface TechItem {
   name: string;
-  category: 'core' | 'frontend' | 'backend' | 'infra' | 'commerce';
+  category: 'core' | 'frontend' | 'backend' | 'infra' | 'commerce' | 'mobile';
   highlight?: boolean;
 }
 
@@ -44,8 +44,8 @@ export interface ProfileConfig {
 
 export const profileConfig: ProfileConfig = {
   site: {
-    title: "Austin | AI FDE & 跨境电商出海架构师",
-    description: "Austin 个人主页与工程思考。专注于企业级 AI 前向部署（AI Forward Deployed Engineer）与跨境电商出海全链路智能体自动化架构。",
+    title: "Austin | AI FDE & 全球电商与云原生系统架构师",
+    description: "Austin 个人主页与工程思考。横跨 AI 前向部署（AI FDE）、Kubernetes 云原生基础设施、全渠道电商体系（Shopify / Saleor / Magento 2）与 iOS / Android 双端开发。",
     url: "https://tschenfeng.com",
     author: "Austin",
     locale: "zh-CN",
@@ -54,12 +54,13 @@ export const profileConfig: ProfileConfig = {
   personal: {
     name: "Austin",
     nativeName: "",
-    title: "AI Forward Deployed Engineer · 跨境电商架构师",
-    headline: "以前向工程战力，将高可靠 AI Agent 智能体系统扎根于跨境电商出海的真实商业战场。",
-    shortBio: "兼具全球出海业务操盘经验与企业级 AI 前向部署（FDE）工程实践。专注于用确定性工作流、状态机与多智能体系统，解决出海增长、自动化履约与多渠道复杂供应链痛点。",
+    title: "AI Forward Deployed Engineer · 全球电商系统架构师",
+    headline: "深耕 Kubernetes 云原生底座、全渠道电商（Shopify / Saleor / Magento 2）与双端研发（iOS / Android），以 AI FDE 战力驱动全球出海实战。",
+    shortBio: "横跨生产级 Kubernetes 集群治理、企业级与无头电商体系（Magento 2 / Saleor / Shopify）、双端移动研发（iOS / Android）及高可靠 AI Agent 前向部署。专注于突破出海与全球化商业全链路工程瓶颈。",
     fullBio: [
-      "AI FDE（前向部署工程师）：深入企业复杂业务前线，基于 LLM、MCP 与状态机架构构建 7x24 小时不掉链子、具备自我校验与容错的高可靠 Agent 工作流。",
-      "跨境电商与全球出海：多年跨境独立站 DTC 与多渠道全球运营技术积累，深度理解选品、营销投放、多语言客服、跨时区履约与跨境合规链路。"
+      "AI FDE & 智能体工程：深入前线业务，基于 LLM、状态机与 MCP 协议打造高韧性、具备自我纠错与长流程调度的企业级 Agent 生产力。",
+      "全渠道电商底座：深度主导并交付过 Magento 2 企业级系统、Saleor 无头 GraphQL 高性能架构、Shopify DTC 品牌站及全套跨平台履约供应链。",
+      "云原生基础设施与移动端：具备生产级多架构 Kubernetes 集群运维与高可用调优经验，主导过覆盖 iOS & Android 的移动端电商与工具应用研发。"
     ],
     location: "Shanghai, China",
     timezone: "Asia/Shanghai",
@@ -94,24 +95,24 @@ export const profileConfig: ProfileConfig = {
     },
   ],
   techStack: [
-    { name: "AI Agents / FDE", category: "core", highlight: true },
-    { name: "跨境电商出海架构", category: "commerce", highlight: true },
+    { name: "Kubernetes", category: "infra", highlight: true },
     { name: "Shopify / DTC", category: "commerce", highlight: true },
+    { name: "Saleor (GraphQL)", category: "commerce", highlight: true },
+    { name: "Magento 2", category: "commerce", highlight: true },
+    { name: "iOS & Android", category: "mobile", highlight: true },
+    { name: "AI Agents / FDE", category: "core", highlight: true },
+    { name: "Cloudflare Workers", category: "infra", highlight: true },
     { name: "TypeScript", category: "core", highlight: true },
     { name: "Python", category: "core", highlight: true },
-    { name: "Cloudflare Workers", category: "infra", highlight: true },
     { name: "Astro", category: "frontend", highlight: true },
-    { name: "多智能体状态机编排", category: "core", highlight: true },
-    { name: "跨境供应链协同", category: "commerce" },
-    { name: "Docker / K8s", category: "infra" },
+    { name: "Docker", category: "infra" },
     { name: "PostgreSQL", category: "backend" },
     { name: "Redis", category: "backend" },
-    { name: "Node.js", category: "backend" },
-    { name: "Git", category: "infra" },
+    { name: "React / Node.js", category: "frontend" },
   ],
   currentFocus: {
     title: "探索方向 & 近期关注",
-    description: "正在深入构建基于自主 Agent 的跨境电商无人化出海体系：涵盖多源情报自动化选品、高转化 DTC 独立站程序化生成与跨时区智能售后调度。",
-    tags: ["AI FDE", "跨境电商", "出海增长", "Multi-Agent Systems", "DTC Automation"],
+    description: "正在探索在 Kubernetes 上运行自主 Agent 集群，深度打通 Saleor / Shopify 核心数据流，并驱动 iOS / Android 双端下一代电商 AI 交互体验。",
+    tags: ["Kubernetes", "AI FDE", "Saleor", "Shopify", "Magento 2", "iOS / Android"],
   },
 };

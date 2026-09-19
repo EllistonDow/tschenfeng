@@ -36,14 +36,14 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
   <!-- 2. Overlay Backdrop for Click-Outside (Mobile & Desktop) -->
   <div
     id="profile-backdrop"
-    class="fixed inset-0 bg-neutral-950/20 dark:bg-neutral-950/50 backdrop-blur-xs z-40 opacity-0 pointer-events-none transition-opacity duration-300"
+    class="fixed inset-0 bg-neutral-950/40 dark:bg-black/60 backdrop-blur-xs z-40 opacity-0 pointer-events-none transition-opacity duration-300"
     aria-hidden="true"
   ></div>
 
   <!-- 3. Expanded Profile Card Panel -->
   <div
     id="profile-card"
-    class="fixed bottom-4 left-4 right-4 sm:right-auto sm:w-[360px] max-h-[88vh] overflow-y-auto rounded-3xl border border-neutral-200/90 dark:border-neutral-800/90 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-2xl shadow-2xl p-6 pb-8 lg:bottom-auto lg:top-24 lg:left-8 xl:left-12 z-50 opacity-0 pointer-events-none -translate-x-4 scale-95 transition-all duration-300 ease-out"
+    class="fixed bottom-4 left-4 right-4 sm:right-auto sm:w-[380px] max-h-[88vh] overflow-y-auto rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-2xl p-6 pb-8 lg:bottom-auto lg:top-24 lg:left-8 xl:left-12 z-50 opacity-0 pointer-events-none -translate-x-4 scale-95 transition-all duration-300 ease-out"
   >
     <!-- Header: Status & Close Button -->
     <div class="flex items-center justify-between pb-4 border-b border-neutral-100 dark:border-neutral-800/80 mb-5">
@@ -177,7 +177,7 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
     function openProfile() {
       isExpanded = true;
       trigger.setAttribute('aria-expanded', 'true');
-      trigger.classList.add('opacity-0', 'pointer-events-none');
+      trigger.classList.add('opacity-0', 'pointer-events-none', 'invisible');
 
       backdrop.classList.remove('opacity-0', 'pointer-events-none');
       backdrop.classList.add('opacity-100', 'pointer-events-auto');
@@ -189,7 +189,7 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
     function closeProfile() {
       isExpanded = false;
       trigger.setAttribute('aria-expanded', 'false');
-      trigger.classList.remove('opacity-0', 'pointer-events-none');
+      trigger.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
 
       backdrop.classList.remove('opacity-100', 'pointer-events-auto');
       backdrop.classList.add('opacity-0', 'pointer-events-none');
