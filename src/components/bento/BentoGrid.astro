@@ -1,32 +1,18 @@
 ---
 import HeroCard from './HeroCard.astro';
-import StatusCard from './StatusCard.astro';
-import SocialCard from './SocialCard.astro';
-import TechStackCard from './TechStackCard.astro';
+import ConnectCard from './ConnectCard.astro';
 import ProjectsCard from './ProjectsCard.astro';
 import BlogPreviewCard from './BlogPreviewCard.astro';
-import AboutCard from './AboutCard.astro';
 ---
 
 <div class="w-full">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-    <!-- Row 1-2 Left: Hero Identity -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
+    <!-- Row 1: Identity & Bio (Left) | Presence & Connect (Right) -->
     <HeroCard />
+    <ConnectCard />
 
-    <!-- Row 1 Right: Status Location & Social Connect -->
-    <StatusCard />
-    <SocialCard />
-
-    <!-- Row 2 Right: Tech Stack Badges -->
-    <TechStackCard />
-
-    <!-- Row 3-4 Left: Featured Projects -->
+    <!-- Row 2: Featured Projects (Left) | Recent Writing & Thoughts (Right) -->
     <ProjectsCard />
-
-    <!-- Row 3 Right: Recent Articles -->
     <BlogPreviewCard />
-
-    <!-- Row 4 Right: Current Focus & Roadmap -->
-    <AboutCard />
   </div>
 </div>
