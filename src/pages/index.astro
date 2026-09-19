@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import BentoGrid from '@/components/bento/BentoGrid.astro';
+import MagneticProfile from '@/components/profile/MagneticProfile.astro';
+import StreamFeed from '@/components/stream/StreamFeed.astro';
 import { profileConfig } from '@/config/profile';
 ---
 
@@ -8,7 +9,11 @@ import { profileConfig } from '@/config/profile';
   title={profileConfig.site.title}
   description={profileConfig.site.description}
 >
-  <div class="space-y-6">
-    <BentoGrid />
+  <!-- Left-Docked Magnetic Collapsible Profile Card -->
+  <MagneticProfile />
+
+  <!-- Single Central Stream Feed -->
+  <div class="relative w-full">
+    <StreamFeed />
   </div>
 </BaseLayout>

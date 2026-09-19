@@ -1,0 +1,162 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectFeedItem from './ProjectFeedItem.astro';
+import PostFeedItem from './PostFeedItem.astro';
+import { Sparkles, Layers, BookOpen } from '@lucide/astro';
+
+const allProjects = await getCollection('projects');
+const sortedProjects = allProjects.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
+const allPosts = await getCollection('posts');
+const sortedPosts = allPosts
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Create an interleaved unified feed
+type FeedItem =
+  | { type: 'project'; data: (typeof sortedProjects)[0]; dateScore: number }
+  | { type: 'post'; data: (typeof sortedPosts)[0]; dateScore: number };
+
+const unifiedFeed: FeedItem[] = [
+  ...sortedProjects.map((p, idx) => ({
+    type: 'project' as const,
+    data: p,
+    dateScore: 1000 - idx * 10,
+  })),
+  ...sortedPosts.map((p) => ({
+    type: 'post' as const,
+    data: p,
+    dateScore: p.data.pubDate.valueOf() / 1000000000,
+  })),
+];
+
+// Sort interleaved feed by alternating/curated priority
+unifiedFeed.sort((a, b) => b.dateScore - a.dateScore);
+---
+
+<div class="w-full max-w-2xl mx-auto pb-16">
+  <!-- Top Filter Tabs (Segmented Control) -->
+  <div class="sticky top-20 z-20 mb-8 py-2 backdrop-blur-md bg-neutral-50/80 dark:bg-neutral-950/80 -mx-4 px-4 sm:mx-0 sm:px-0">
+    <div class="flex items-center justify-between gap-2 p-1.5 rounded-2xl border border-neutral-200/80 dark:border-neutral-800/80 bg-white/90 dark:bg-neutral-900/90 shadow-xs">
+      <div class="flex items-center gap-1 w-full" id="feed-filter-tabs" role="tablist">
+        <button
+          type="button"
+          data-filter="all"
+          role="tab"
+          aria-selected="true"
+          class="filter-tab flex-1 py-1.5 px-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-1.5 cursor-pointer bg-neutral-900 dark:bg-white text-white dark:text-neutral-950 shadow-xs"
+        >
+          <Sparkles class="w-3.5 h-3.5" />
+          <span>全部动态</span>
+          <span class="text-[11px] opacity-70 font-mono">({unifiedFeed.length})</span>
+        </button>
+
+        <button
+          type="button"
+          data-filter="project"
+          role="tab"
+          aria-selected="false"
+          class="filter-tab flex-1 py-1.5 px-3 rounded-xl text-xs sm:text-sm font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
+        >
+          <Layers class="w-3.5 h-3.5" />
+          <span>开源作品</span>
+          <span class="text-[11px] opacity-70 font-mono">({sortedProjects.length})</span>
+        </button>
+
+        <button
+          type="button"
+          data-filter="post"
+          role="tab"
+          aria-selected="false"
+          class="filter-tab flex-1 py-1.5 px-3 rounded-xl text-xs sm:text-sm font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
+        >
+          <BookOpen class="w-3.5 h-3.5" />
+          <span>思考文章</span>
+          <span class="text-[11px] opacity-70 font-mono">({sortedPosts.length})</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vertical Continuous Stream -->
+  <div id="feed-stream-container" class="space-y-4 sm:space-y-5">
+    {unifiedFeed.map((item) => (
+      <div class="feed-entry transition-all duration-300" data-entry-type={item.type}>
+        {item.type === 'project' ? (
+          <ProjectFeedItem
+            title={item.data.data.title}
+            description={item.data.data.description}
+            tags={item.data.data.tags}
+            metrics={item.data.data.metrics}
+            link={item.data.data.link}
+            github={item.data.data.github}
+          />
+        ) : (
+          <PostFeedItem
+            id={item.data.id}
+            title={item.data.data.title}
+            description={item.data.data.description}
+            pubDate={item.data.data.pubDate}
+            tags={item.data.data.tags}
+          />
+        )}
+      </div>
+    ))}
+  </div>
+
+  <!-- Stream End Indicator -->
+  <div class="pt-12 pb-6 text-center text-xs text-neutral-400 dark:text-neutral-500 font-mono flex items-center justify-center gap-2">
+    <span class="w-8 h-px bg-neutral-200 dark:bg-neutral-800"></span>
+    <span>End of Stream · 持续构建与思考中</span>
+    <span class="w-8 h-px bg-neutral-200 dark:bg-neutral-800"></span>
+  </div>
+</div>
+
+<script>
+  function setupFeedFilter() {
+    const tabs = document.querySelectorAll<HTMLButtonElement>('.filter-tab');
+    const entries = document.querySelectorAll<HTMLElement>('.feed-entry');
+
+    if (!tabs.length || !entries.length) return;
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const filter = tab.getAttribute('data-filter') || 'all';
+
+        // Update tab styles
+        tabs.forEach((t) => {
+          const isActive = t === tab;
+          t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+          if (isActive) {
+            t.className =
+              'filter-tab flex-1 py-1.5 px-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-1.5 cursor-pointer bg-neutral-900 dark:bg-white text-white dark:text-neutral-950 shadow-xs';
+          } else {
+            t.className =
+              'filter-tab flex-1 py-1.5 px-3 rounded-xl text-xs sm:text-sm font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white';
+          }
+        });
+
+        // Filter feed items with smooth animation
+        entries.forEach((entry) => {
+          const type = entry.getAttribute('data-entry-type');
+          if (filter === 'all' || type === filter) {
+            entry.style.display = 'block';
+            setTimeout(() => {
+              entry.style.opacity = '1';
+              entry.style.transform = 'translateY(0)';
+            }, 10);
+          } else {
+            entry.style.opacity = '0';
+            entry.style.transform = 'translateY(8px)';
+            setTimeout(() => {
+              entry.style.display = 'none';
+            }, 150);
+          }
+        });
+      });
+    });
+  }
+
+  setupFeedFilter();
+  document.addEventListener('astro:after-swap', setupFeedFilter);
+</script>
