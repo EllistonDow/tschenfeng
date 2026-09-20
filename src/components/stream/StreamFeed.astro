@@ -8,7 +8,7 @@ const sortedPosts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<div class="w-full max-w-2xl mx-auto pb-16">
+<div class="w-full pb-16">
   <!-- Articles Stream -->
   <div class="space-y-4 sm:space-y-5">
     {sortedPosts.map((post) => (
