@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@tailwindcss/typography": "^0.5.20",
     "typescript": "^6.0.3"
   }
 }

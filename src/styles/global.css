@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -52,6 +53,150 @@ html.dark .bento-card {
 html.dark .bento-card:hover {
   border-color: rgba(63, 63, 70, 0.9);
   box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4);
+}
+
+/* Article Prose Typography Styling */
+.article-prose {
+  font-size: 0.9375rem;
+  line-height: 1.85;
+}
+
+.article-prose h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 2.25rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+}
+
+html.dark .article-prose h2 {
+  border-bottom: 1px solid rgba(39, 39, 42, 0.6);
+}
+
+.article-prose h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-top: 1.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.article-prose p {
+  margin-bottom: 1.25rem;
+  color: #374151;
+}
+
+html.dark .article-prose p {
+  color: #d1d5db;
+}
+
+.article-prose strong {
+  font-weight: 600;
+  color: #111827;
+}
+
+html.dark .article-prose strong {
+  color: #f9fafb;
+}
+
+.article-prose ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.article-prose ol {
+  list-style-type: decimal;
+  padding-left: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.article-prose li {
+  margin-bottom: 0.4rem;
+  color: #4b5563;
+}
+
+html.dark .article-prose li {
+  color: #9ca3af;
+}
+
+.article-prose blockquote {
+  border-left: 3px solid #6366f1;
+  background-color: rgba(99, 102, 241, 0.05);
+  padding: 0.85rem 1.25rem;
+  border-radius: 0 0.75rem 0.75rem 0;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #4b5563;
+}
+
+html.dark .article-prose blockquote {
+  background-color: rgba(99, 102, 241, 0.08);
+  color: #cbd5e1;
+}
+
+.article-prose code:not(pre code) {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.825em;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.375rem;
+  background-color: rgba(243, 244, 246, 0.8);
+  color: #4f46e5;
+  border: 1px solid rgba(229, 231, 235, 0.8);
+}
+
+html.dark .article-prose code:not(pre code) {
+  background-color: rgba(30, 41, 59, 0.6);
+  color: #818cf8;
+  border: 1px solid rgba(51, 65, 85, 0.6);
+}
+
+.article-prose pre {
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  border: 1px solid rgba(39, 39, 42, 0.8);
+  background-color: #121214 !important;
+}
+
+.article-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+}
+
+.article-prose th {
+  text-align: left;
+  padding: 0.65rem 0.85rem;
+  font-weight: 600;
+  border-bottom: 2px solid rgba(229, 231, 235, 0.8);
+}
+
+html.dark .article-prose th {
+  border-bottom: 2px solid rgba(63, 63, 70, 0.8);
+}
+
+.article-prose td {
+  padding: 0.65rem 0.85rem;
+  border-bottom: 1px solid rgba(243, 244, 246, 0.8);
+}
+
+html.dark .article-prose td {
+  border-bottom: 1px solid rgba(39, 39, 42, 0.6);
+}
+
+.article-prose hr {
+  border: 0;
+  height: 1px;
+  background: rgba(229, 231, 235, 0.8);
+  margin: 2.25rem 0;
+}
+
+html.dark .article-prose hr {
+  background: rgba(39, 39, 42, 0.8);
 }
 
 /* Pulse indicator animation */
