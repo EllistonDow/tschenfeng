@@ -7,43 +7,86 @@ import { MapPin, X, ChevronRight, Mail, ArrowUpRight } from '@lucide/astro';
 const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
 ---
 
-<!-- Magnetic Profile Dock Wrapper -->
-<div id="magnetic-profile-root" class="relative">
-  <!-- 1. Collapsed Magnetic Image Trigger (Floating Left on Desktop, Thumb-friendly Bottom on Mobile) -->
-  <button
-    id="profile-trigger"
-    type="button"
-    aria-expanded="false"
-    aria-controls="profile-card"
-    aria-label={`查看个人资料 - ${profileConfig.personal.name}`}
-    title={`查看个人资料 - ${profileConfig.personal.name}`}
-    class="fixed bottom-5 left-4 sm:left-6 lg:bottom-auto lg:top-24 lg:left-8 xl:left-12 z-30 group relative p-1 rounded-2xl border border-neutral-200/80 dark:border-neutral-800/80 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md shadow-lg hover:shadow-2xl hover:border-neutral-300 dark:hover:border-neutral-700 transition-all duration-300 hover:scale-110 cursor-pointer"
-  >
-    <div class="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden shadow-xs">
-      <img
-        src={profileConfig.personal.avatarUrl}
-        alt={profileConfig.personal.name}
-        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-        loading="eager"
-      />
+<div id="magnetic-profile-root">
+  <!-- 1. Desktop Left-Anchored Sticky Magnetic Avatar (Positioned outside the stream's left edge, NEVER overlaps content) -->
+  <div class="hidden lg:block absolute -left-16 xl:-left-20 top-2 z-30 pointer-events-auto">
+    <div class="sticky top-28">
+      <button
+        id="profile-trigger-desktop"
+        type="button"
+        aria-expanded="false"
+        aria-controls="profile-card"
+        aria-label={`查看个人资料 - ${profileConfig.personal.name}`}
+        title={`查看个人资料 - ${profileConfig.personal.name}`}
+        class="profile-open-btn group relative p-1 rounded-2xl border border-neutral-200/80 dark:border-neutral-800/80 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md shadow-lg hover:shadow-2xl hover:border-neutral-300 dark:hover:border-neutral-700 transition-all duration-300 hover:scale-110 cursor-pointer"
+      >
+        <div class="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden shadow-xs">
+          <img
+            src={profileConfig.personal.avatarUrl}
+            alt={profileConfig.personal.name}
+            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            loading="eager"
+          />
+        </div>
+        <!-- Active Status Pulse Dot -->
+        <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white dark:border-neutral-900 shadow-xs flex items-center justify-center">
+          <span class="w-1.5 h-1.5 rounded-full bg-white dark:bg-neutral-900 animate-pulse-subtle"></span>
+        </span>
+      </button>
     </div>
-    <!-- Active Status Pulse Dot -->
-    <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white dark:border-neutral-900 shadow-xs flex items-center justify-center">
-      <span class="w-1.5 h-1.5 rounded-full bg-white dark:bg-neutral-900 animate-pulse-subtle"></span>
-    </span>
-  </button>
+  </div>
 
-  <!-- 2. Overlay Backdrop for Click-Outside (Mobile & Desktop) -->
+  <!-- 2. Mobile/Tablet Inline Header Card (Cleanly placed at top of stream, NEVER overlaps scrolling text) -->
+  <div class="lg:hidden mb-6">
+    <button
+      id="profile-trigger-mobile"
+      type="button"
+      aria-expanded="false"
+      aria-controls="profile-card"
+      class="profile-open-btn w-full p-3.5 rounded-2xl border border-neutral-200/80 dark:border-neutral-800/80 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md shadow-sm hover:shadow-md hover:border-neutral-300 dark:hover:border-neutral-700 transition-all flex items-center justify-between gap-3 text-left cursor-pointer group"
+    >
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="relative shrink-0 w-10 h-10 rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-700 shadow-xs">
+          <img
+            src={profileConfig.personal.avatarUrl}
+            alt={profileConfig.personal.name}
+            class="w-full h-full object-cover"
+          />
+          <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white dark:border-neutral-900"></span>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-neutral-900 dark:text-white truncate">
+              {profileConfig.personal.name}
+            </span>
+            <span class="text-[10px] font-medium px-1.5 py-0.2 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/60 shrink-0">
+              开放合作
+            </span>
+          </div>
+          <p class="text-[11px] text-neutral-500 dark:text-neutral-400 truncate">
+            {profileConfig.personal.title}
+          </p>
+        </div>
+      </div>
+
+      <div class="shrink-0 flex items-center gap-1 text-xs text-indigo-600 dark:text-indigo-400 font-medium">
+        <span>档案</span>
+        <ChevronRight class="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+      </div>
+    </button>
+  </div>
+
+  <!-- 3. Overlay Backdrop for Click-Outside (Mobile & Desktop) -->
   <div
     id="profile-backdrop"
-    class="fixed inset-0 bg-neutral-950/40 dark:bg-black/60 backdrop-blur-xs z-40 opacity-0 pointer-events-none transition-opacity duration-300"
+    class="fixed inset-0 bg-neutral-950/40 dark:bg-black/60 backdrop-blur-xs z-[9998] opacity-0 pointer-events-none transition-opacity duration-300"
     aria-hidden="true"
   ></div>
 
-  <!-- 3. Expanded Profile Card Panel -->
+  <!-- 4. Expanded Profile Card Panel -->
   <div
     id="profile-card"
-    class="fixed bottom-4 left-4 right-4 sm:right-auto sm:w-[380px] max-h-[88vh] overflow-y-auto rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-2xl p-6 pb-8 lg:bottom-auto lg:top-24 lg:left-8 xl:left-12 z-50 opacity-0 pointer-events-none -translate-x-4 scale-95 transition-all duration-300 ease-out"
+    class="fixed bottom-4 left-4 right-4 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 lg:translate-x-0 sm:w-[390px] max-h-[88vh] overflow-y-auto rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-2xl p-6 pb-8 lg:bottom-auto lg:top-24 lg:left-[max(1.5rem,calc(50vw-24rem-12rem))] z-[9999] opacity-0 pointer-events-none scale-95 transition-all duration-300 ease-out"
   >
     <!-- Header: Status & Close Button -->
     <div class="flex items-center justify-between pb-4 border-b border-neutral-100 dark:border-neutral-800/80 mb-5">
@@ -76,16 +119,9 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
       </div>
 
       <div>
-        <div class="flex items-baseline gap-2 mb-0.5">
-          <h2 class="text-xl font-bold text-neutral-900 dark:text-white">
-            {profileConfig.personal.name}
-          </h2>
-          {profileConfig.personal.nativeName && (
-            <span class="text-xs text-neutral-400 dark:text-neutral-500">
-              ({profileConfig.personal.nativeName})
-            </span>
-          )}
-        </div>
+        <h2 class="text-xl font-bold text-neutral-900 dark:text-white mb-0.5">
+          {profileConfig.personal.name}
+        </h2>
         <p class="text-xs font-medium text-neutral-500 dark:text-neutral-400">
           {profileConfig.personal.title}
         </p>
@@ -165,42 +201,53 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
 
 <script>
   function setupMagneticProfile() {
-    const trigger = document.getElementById('profile-trigger');
     const card = document.getElementById('profile-card');
-    const closeBtn = document.getElementById('profile-close');
     const backdrop = document.getElementById('profile-backdrop');
 
-    if (!trigger || !card || !closeBtn || !backdrop) return;
+    // Portal modal and backdrop to document.body to ensure top-level stacking above all containers
+    if (card && backdrop && card.parentElement !== document.body) {
+      document.body.appendChild(backdrop);
+      document.body.appendChild(card);
+    }
+
+    const triggerBtns = document.querySelectorAll<HTMLButtonElement>('.profile-open-btn');
+    const closeBtn = document.getElementById('profile-close');
+
+    if (!triggerBtns.length || !card || !closeBtn || !backdrop) return;
 
     let isExpanded = false;
 
     function openProfile() {
       isExpanded = true;
-      trigger.setAttribute('aria-expanded', 'true');
-      trigger.classList.add('opacity-0', 'pointer-events-none', 'invisible');
+      triggerBtns.forEach((btn) => {
+        btn.setAttribute('aria-expanded', 'true');
+      });
 
       backdrop.classList.remove('opacity-0', 'pointer-events-none');
       backdrop.classList.add('opacity-100', 'pointer-events-auto');
 
-      card.classList.remove('opacity-0', 'pointer-events-none', '-translate-x-4', 'scale-95');
-      card.classList.add('opacity-100', 'pointer-events-auto', 'translate-x-0', 'scale-100');
+      card.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+      card.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
     }
 
     function closeProfile() {
       isExpanded = false;
-      trigger.setAttribute('aria-expanded', 'false');
-      trigger.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
+      triggerBtns.forEach((btn) => {
+        btn.setAttribute('aria-expanded', 'false');
+      });
 
       backdrop.classList.remove('opacity-100', 'pointer-events-auto');
       backdrop.classList.add('opacity-0', 'pointer-events-none');
 
-      card.classList.remove('opacity-100', 'pointer-events-auto', 'translate-x-0', 'scale-100');
-      card.classList.add('opacity-0', 'pointer-events-none', '-translate-x-4', 'scale-95');
+      card.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+      card.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
     }
 
-    trigger.addEventListener('click', (e) => {
-      e.stopPropagation();
-      openProfile();
+    triggerBtns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openProfile();
+      });
     });
 
     closeBtn.addEventListener('click', (e) => {
