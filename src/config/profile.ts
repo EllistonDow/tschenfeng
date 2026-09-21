@@ -55,11 +55,11 @@ export const profileConfig: ProfileConfig = {
     name: "Austin",
     nativeName: "",
     title: "AI Forward Deployed Engineer · 全球电商与云原生架构师",
-    headline: "深耕 Kubernetes 云原生底座、全渠道电商（Shopify / Saleor / Magento 2）、TanStack 全栈工程、双端移动（iOS / Android）与 SEO / GEO 增长，以 AI FDE 前向战力驱动全球出海实战。",
-    shortBio: "横跨生产级 Kubernetes 集群治理、企业级与无头电商（Magento 2 / Saleor / Shopify）、TanStack 全家桶现代前端架构、双端研发（iOS / Android / PWA）与全球 SEO / GEO（生成式 AI 搜索引擎优化）。深度融合企业级 AI Agent 前向部署，打通出海全链路商业工程闭环。",
+    headline: "深耕 Kubernetes 云原生底座、全渠道出海电商矩阵（Shopify / Saleor / Magento 2 / MedusaJS / Vendure）、TanStack 全栈工程、双端移动（iOS / Android）与 SEO / GEO 增长，以 AI FDE 前向战力驱动全球出海实战。",
+    shortBio: "横跨生产级 Kubernetes 集群治理、全渠道品牌独立站与现代电商体系（Shopify / Saleor / Magento 2 / MedusaJS / Vendure）、TanStack 全栈工程化、双端移动应用（iOS / Android / PWA）及全球 SEO / GEO（生成式 AI 搜索优化）。深度融合企业级 AI Agent 前向部署，打通出海全链路商业工程闭环。",
     fullBio: [
       "AI FDE & 智能体工程：深入复杂业务前线，基于 LLM、状态机与 MCP 协议打造高韧性、具备自我纠错与长流程调度的企业级 Agent 生产力。",
-      "全渠道电商与前端架构：深度交付 Magento 2 企业级电商系统、Saleor 无头 GraphQL 高性能架构、Shopify DTC 品牌矩阵，精通 TanStack 全家桶（Query / Router / Table / Virtual / Form）与 PWA 渐进式 Web 应用。",
+      "全渠道电商与现代架构：深度交付 Magento 2 企业级电商系统、Saleor 与 Vendure 高性能定制独立站、MedusaJS 模块化定制、Shopify DTC 品牌矩阵，精通 TanStack 全家桶（Query / Router / Table / Virtual / Form）与 PWA 渐进式 Web 应用。",
       "基础设施与全球增长：掌舵生产级多架构 Kubernetes 集群治理与 Cloudflare 边缘加速，精通全球化 SEO 与 GEO（生成式 AI 搜索引擎优化 / Perplexity & ChatGPT Search 索引优化），主导 iOS & Android 双端原生与跨平台应用研发。"
     ],
     location: "Shanghai, China",
@@ -99,6 +99,7 @@ export const profileConfig: ProfileConfig = {
     { name: "Shopify / DTC", category: "commerce", highlight: true },
     { name: "Saleor (GraphQL)", category: "commerce", highlight: true },
     { name: "Magento 2", category: "commerce", highlight: true },
+    { name: "MedusaJS & Vendure", category: "commerce", highlight: true },
     { name: "TanStack 全家桶", category: "frontend", highlight: true },
     { name: "iOS & Android", category: "mobile", highlight: true },
     { name: "SEO & GEO (AI Search)", category: "growth", highlight: true },
@@ -112,7 +113,7 @@ export const profileConfig: ProfileConfig = {
   ],
   currentFocus: {
     title: "探索方向 & 近期关注",
-    description: "构建基于 Kubernetes + TanStack + PWA 的下一代无头电商与多智能体协同底座，深度结合 GEO（生成式 AI 搜索引擎优化）与出海私域增长体系。",
-    tags: ["Kubernetes", "AI FDE", "TanStack", "Saleor", "Shopify", "GEO / SEO", "PWA"],
+    description: "构建基于 Kubernetes + TanStack + PWA 的下一代高性能出海独立站与多智能体协同底座，深度结合 GEO（生成式 AI 搜索引擎优化）与出海私域增长体系。",
+    tags: ["Kubernetes", "AI FDE", "Saleor", "Shopify", "Magento 2", "MedusaJS", "Vendure", "TanStack"],
   },
 };
