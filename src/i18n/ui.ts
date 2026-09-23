@@ -44,8 +44,8 @@ export const ui = {
     // Fediverse
     'fediverse.badge': 'ActivityPub · Fediverse',
     'fediverse.status': 'Live on Mastodon',
-    'fediverse.handle': '@tschenfeng.com@web.brid.gy',
-    'fediverse.fullHandle': '@tschenfeng.com@web.brid.gy',
+    'fediverse.handle': '@tschenfeng.com',
+    'fediverse.fullHandle': '@tschenfeng.com@tschenfeng.com',
     'fediverse.copy': 'Copy Handle',
     'fediverse.copied': 'Copied!',
     'fediverse.openMastodon': 'Open Profile on Mastodon',
@@ -116,8 +116,8 @@ export const ui = {
     // Fediverse
     'fediverse.badge': 'ActivityPub · 联邦宇宙',
     'fediverse.status': '已接入 Mastodon 节点',
-    'fediverse.handle': '@tschenfeng.com@web.brid.gy',
-    'fediverse.fullHandle': '@tschenfeng.com@web.brid.gy',
+    'fediverse.handle': '@tschenfeng.com',
+    'fediverse.fullHandle': '@tschenfeng.com@tschenfeng.com',
     'fediverse.copy': '复制把手',
     'fediverse.copied': '已复制!',
     'fediverse.openMastodon': '进入 Mastodon 主页',
