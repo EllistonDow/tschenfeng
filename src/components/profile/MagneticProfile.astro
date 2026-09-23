@@ -4,6 +4,7 @@ import { getLangFromUrl, useTranslations } from '@/i18n/utils';
 import type { Lang } from '@/i18n/ui';
 import LiveClock from '@/components/ui/LiveClock.astro';
 import SocialIcon from '@/components/ui/SocialIcon.astro';
+import FediverseCard from '@/components/fediverse/FediverseCard.astro';
 import { MapPin, X, ChevronRight, Mail, ArrowUpRight } from '@lucide/astro';
 
 interface Props {
@@ -85,6 +86,11 @@ const highlightedTech = profile.techStack.filter((t) => t.highlight);
         <ChevronRight class="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
       </div>
     </button>
+
+    <!-- Fediverse ActivityPub Card directly below mobile header card -->
+    <div class="mt-3">
+      <FediverseCard lang={lang} />
+    </div>
   </div>
 
   <!-- 3. Overlay Backdrop for Click-Outside (Mobile & Desktop) -->
@@ -160,6 +166,9 @@ const highlightedTech = profile.techStack.filter((t) => t.highlight);
         </div>
       </div>
     </div>
+
+    <!-- Fediverse ActivityPub Card inside expanded profile -->
+    <FediverseCard lang={lang} />
 
     <!-- Social Links Grid -->
     <div class="mb-5">

@@ -41,6 +41,17 @@ export const ui = {
     'blog.discussBtn': 'Discuss via Email',
     'blog.empty': 'Articles are being prepared, stay tuned.',
 
+    // Fediverse
+    'fediverse.badge': 'ActivityPub · Fediverse',
+    'fediverse.status': 'Live on Mastodon',
+    'fediverse.handle': '@tschenfeng.com@web.brid.gy',
+    'fediverse.fullHandle': '@tschenfeng.com@web.brid.gy',
+    'fediverse.copy': 'Copy Handle',
+    'fediverse.copied': 'Copied!',
+    'fediverse.openMastodon': 'Open Profile on Mastodon',
+    'fediverse.desc': 'Click to open the federated profile on Mastodon and follow for updates.',
+    'fediverse.viewNode': 'Mastodon Profile',
+
     // Projects
     'projects.badge': 'Selected Works',
     'projects.title': 'Production Works & Open Source',
@@ -101,6 +112,17 @@ export const ui = {
     'blog.discussDesc': '如果你对本文探讨的架构设计、AI 部署实践或出海业务感兴趣，欢迎交流。',
     'blog.discussBtn': '邮件探讨',
     'blog.empty': '文章正在筹备中，敬请期待。',
+
+    // Fediverse
+    'fediverse.badge': 'ActivityPub · 联邦宇宙',
+    'fediverse.status': '已接入 Mastodon 节点',
+    'fediverse.handle': '@tschenfeng.com@web.brid.gy',
+    'fediverse.fullHandle': '@tschenfeng.com@web.brid.gy',
+    'fediverse.copy': '复制把手',
+    'fediverse.copied': '已复制!',
+    'fediverse.openMastodon': '进入 Mastodon 主页',
+    'fediverse.desc': '点击进入 Mastodon 查看专属档案与历史动态，支持直接关注。',
+    'fediverse.viewNode': 'Mastodon 主页',
 
     // Projects
     'projects.badge': '精选作品',
