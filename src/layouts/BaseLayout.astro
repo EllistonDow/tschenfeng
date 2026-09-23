@@ -2,35 +2,48 @@
 import SEOHead from '@/components/seo/SEOHead.astro';
 import JsonLd from '@/components/seo/JsonLd.astro';
 import ThemeToggle from '@/components/ui/ThemeToggle.astro';
-import { profileConfig } from '@/config/profile';
+import LanguageToggle from '@/components/ui/LanguageToggle.astro';
+import { getProfileConfig } from '@/config/profile';
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import type { Lang } from '@/i18n/ui';
 import '@/styles/global.css';
 
 export interface Props {
   title?: string;
   description?: string;
   image?: string;
+  lang?: Lang;
   article?: {
     pubDate: Date;
     tags?: string[];
   };
 }
 
-const { title, description, image, article } = Astro.props;
+const { title, description, image, lang: propLang, article } = Astro.props;
 const currentPath = Astro.url.pathname;
 const currentYear = new Date().getFullYear();
 
+const lang = propLang || getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const profile = getProfileConfig(lang);
+
+const homeHref = lang === 'zh' ? '/zh' : '/';
+const projectsHref = lang === 'zh' ? '/zh/projects' : '/projects';
+const blogHref = lang === 'zh' ? '/zh/blog' : '/blog';
+const rssHref = lang === 'zh' ? '/zh/rss.xml' : '/rss.xml';
+
 const navItems = [
-  { label: '首页', href: '/' },
-  { label: '作品集', href: '/projects' },
-  { label: '文章', href: '/blog' },
+  { label: t('nav.home'), href: homeHref },
+  { label: t('nav.projects'), href: projectsHref },
+  { label: t('nav.blog'), href: blogHref },
 ];
 ---
 
 <!doctype html>
-<html lang={profileConfig.site.locale} class="scroll-smooth">
+<html lang={lang === 'zh' ? 'zh-CN' : 'en'} class="scroll-smooth">
   <head>
-    <SEOHead title={title} description={description} image={image} article={article} />
-    <JsonLd />
+    <SEOHead title={title} description={description} image={image} lang={lang} article={article} />
+    <JsonLd lang={lang} />
     <!-- Zero-FOUC Synchronous Dark Mode Script -->
     <script is:inline>
       (function () {
@@ -60,7 +73,7 @@ const navItems = [
     <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/70 dark:bg-neutral-950/70 border-b border-neutral-200/60 dark:border-neutral-800/60 transition-colors">
       <div class="max-w-6xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
         <!-- Logo -->
-        <a href="/" class="group flex items-center gap-2.5">
+        <a href={homeHref} class="group flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-950 font-bold text-sm flex items-center justify-center shadow-xs transition-transform group-hover:scale-105 shrink-0">
             TF
           </div>
@@ -69,16 +82,16 @@ const navItems = [
               tschenfeng<span class="text-indigo-500 dark:text-indigo-400">.com</span>
             </span>
             <span class="text-[11px] text-neutral-500 dark:text-neutral-400 font-normal">
-              {profileConfig.personal.name}
+              {profile.personal.name}
             </span>
           </div>
         </a>
 
-        <!-- Nav Links & Theme Toggle -->
+        <!-- Nav Links & Controls -->
         <div class="flex items-center gap-2 sm:gap-3">
           <nav class="flex items-center gap-0.5 sm:gap-1 p-1 bg-neutral-100/80 dark:bg-neutral-900/80 rounded-xl border border-neutral-200/60 dark:border-neutral-800/60">
             {navItems.map((item) => {
-              const isActive = item.href === '/' ? currentPath === '/' : currentPath.startsWith(item.href);
+              const isActive = item.href === homeHref ? currentPath === homeHref : currentPath.startsWith(item.href);
               return (
                 <a
                   href={item.href}
@@ -95,7 +108,8 @@ const navItems = [
             })}
           </nav>
 
-          <div>
+          <div class="flex items-center gap-1.5 sm:gap-2">
+            <LanguageToggle currentLang={lang} />
             <ThemeToggle />
           </div>
         </div>
@@ -111,18 +125,18 @@ const navItems = [
     <footer class="w-full border-t border-neutral-200/60 dark:border-neutral-800/60 bg-white/40 dark:bg-neutral-950/40 py-8 text-xs text-neutral-500 dark:text-neutral-400 transition-colors">
       <div class="max-w-6xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="flex items-center gap-3">
-          <span>&copy; {currentYear} {profileConfig.personal.name}</span>
+          <span>&copy; {currentYear} {profile.personal.name}</span>
           <span>&middot;</span>
           <span class="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse-subtle"></span>
-            All systems operational
+            {t('footer.status')}
           </span>
         </div>
 
         <div class="flex items-center gap-4 text-xs font-medium">
-          <a href="/rss.xml" class="hover:text-neutral-900 dark:hover:text-white transition-colors" target="_blank" rel="noopener">RSS Feed</a>
-          <a href="/sitemap-index.xml" class="hover:text-neutral-900 dark:hover:text-white transition-colors" target="_blank" rel="noopener">Sitemap</a>
-          <a href={profileConfig.socials.find(s => s.icon === 'github')?.url || 'https://github.com'} class="hover:text-neutral-900 dark:hover:text-white transition-colors" target="_blank" rel="noopener">GitHub</a>
+          <a href={rssHref} class="hover:text-neutral-900 dark:hover:text-white transition-colors" target="_blank" rel="noopener">{t('footer.rss')}</a>
+          <a href="/sitemap-index.xml" class="hover:text-neutral-900 dark:hover:text-white transition-colors" target="_blank" rel="noopener">{t('footer.sitemap')}</a>
+          <a href={profile.socials.find(s => s.icon === 'github')?.url || 'https://github.com'} class="hover:text-neutral-900 dark:hover:text-white transition-colors" target="_blank" rel="noopener">GitHub</a>
         </div>
       </div>
     </footer>

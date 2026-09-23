@@ -1,31 +1,44 @@
 ---
-import { getCollection } from 'astro:content';
+import { getPostsByLang } from '@/lib/content';
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import type { Lang } from '@/i18n/ui';
 import PostFeedItem from './PostFeedItem.astro';
 
-const allPosts = await getCollection('posts');
-const sortedPosts = allPosts
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+interface Props {
+  lang?: Lang;
+}
+
+const { lang: propLang } = Astro.props;
+const lang = propLang || getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const posts = await getPostsByLang(lang);
 ---
 
 <div class="w-full pb-16">
   <!-- Articles Stream -->
   <div class="space-y-4 sm:space-y-5">
-    {sortedPosts.map((post) => (
+    {posts.map((post) => (
       <PostFeedItem
-        id={post.id}
+        slug={post.slug}
+        lang={lang}
         title={post.data.title}
         description={post.data.description}
         pubDate={post.data.pubDate}
         tags={post.data.tags}
       />
     ))}
+    {posts.length === 0 && (
+      <div class="p-8 text-center text-sm text-neutral-500 dark:text-neutral-400 bg-white/50 dark:bg-neutral-900/50 rounded-3xl border border-neutral-200/60 dark:border-neutral-800/60">
+        {t('blog.empty')}
+      </div>
+    )}
   </div>
 
   <!-- Stream End Indicator -->
   <div class="pt-12 pb-6 text-center text-xs text-neutral-400 dark:text-neutral-500 font-mono flex items-center justify-center gap-2">
     <span class="w-8 h-px bg-neutral-200 dark:bg-neutral-800"></span>
-    <span>End of Stream · 持续写作与思考中</span>
+    <span>{t('feed.endOfStream')}</span>
     <span class="w-8 h-px bg-neutral-200 dark:bg-neutral-800"></span>
   </div>
 </div>

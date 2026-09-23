@@ -1,10 +1,13 @@
 ---
-import { profileConfig } from '@/config/profile';
+import { getProfileConfig } from '@/config/profile';
+import { getLangFromUrl, getLocalizedPath } from '@/i18n/utils';
+import type { Lang } from '@/i18n/ui';
 
 export interface Props {
   title?: string;
   description?: string;
   image?: string;
+  lang?: Lang;
   article?: {
     pubDate: Date;
     tags?: string[];
@@ -12,14 +15,32 @@ export interface Props {
 }
 
 const {
-  title = profileConfig.site.title,
-  description = profileConfig.site.description,
-  image = profileConfig.site.ogImage,
+  title: propTitle,
+  description: propDescription,
+  image,
+  lang: propLang,
   article,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || profileConfig.site.url);
-const ogImageURL = new URL(image, Astro.site || profileConfig.site.url);
+const lang = propLang || getLangFromUrl(Astro.url);
+const profile = getProfileConfig(lang);
+
+const title = propTitle || profile.site.title;
+const description = propDescription || profile.site.description;
+const ogImage = image || profile.site.ogImage;
+
+const siteUrl = Astro.site?.toString() || profile.site.url;
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const ogImageURL = new URL(ogImage, siteUrl);
+
+// Alternate URLs for hreflang
+const enPath = getLocalizedPath(Astro.url.pathname, 'en');
+const zhPath = getLocalizedPath(Astro.url.pathname, 'zh');
+const enUrl = new URL(enPath, siteUrl);
+const zhUrl = new URL(zhPath, siteUrl);
+
+const ogLocale = lang === 'zh' ? 'zh_CN' : 'en_US';
+const ogAlternateLocale = lang === 'zh' ? 'en_US' : 'zh_CN';
 ---
 
 <!-- Global Metadata -->
@@ -28,17 +49,22 @@ const ogImageURL = new URL(image, Astro.site || profileConfig.site.url);
 <meta name="generator" content={Astro.generator} />
 <link rel="canonical" href={canonicalURL} />
 
+<!-- Multilingual SEO hreflang -->
+<link rel="alternate" hreflang="en" href={enUrl} />
+<link rel="alternate" hreflang="zh" href={zhUrl} />
+<link rel="alternate" hreflang="x-default" href={enUrl} />
+
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
 <!-- RSS Feed Discovery -->
-<link rel="alternate" type="application/rss+xml" title={profileConfig.site.title} href="/rss.xml" />
+<link rel="alternate" type="application/rss+xml" title={profile.site.title} href={lang === 'zh' ? "/zh/rss.xml" : "/rss.xml"} />
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
-<meta name="author" content={profileConfig.personal.name} />
+<meta name="author" content={profile.personal.name} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={article ? 'article' : 'website'} />
@@ -47,7 +73,8 @@ const ogImageURL = new URL(image, Astro.site || profileConfig.site.url);
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImageURL} />
 <meta property="og:site_name" content="tschenfeng.com" />
-<meta property="og:locale" content="zh_CN" />
+<meta property="og:locale" content={ogLocale} />
+<meta property="og:locale:alternate" content={ogAlternateLocale} />
 
 {article && (
   <meta property="article:published_time" content={article.pubDate.toISOString()} />

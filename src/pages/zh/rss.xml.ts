@@ -4,8 +4,8 @@ import { getProfileConfig } from '@/config/profile';
 import type { APIContext } from 'astro';
 
 export async function GET(context: APIContext) {
-  const posts = await getPostsByLang('en');
-  const profile = getProfileConfig('en');
+  const posts = await getPostsByLang('zh');
+  const profile = getProfileConfig('zh');
 
   return rss({
     title: profile.site.title,
@@ -15,8 +15,8 @@ export async function GET(context: APIContext) {
       title: post.data.title,
       pubDate: post.data.pubDate,
       description: post.data.description,
-      link: `/blog/${post.slug}/`,
+      link: `/zh/blog/${post.slug}/`,
     })),
-    customData: `<language>en-US</language>`,
+    customData: `<language>zh-CN</language>`,
   });
 }

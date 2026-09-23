@@ -1,10 +1,21 @@
 ---
-import { profileConfig } from '@/config/profile';
+import { getProfileConfig } from '@/config/profile';
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import type { Lang } from '@/i18n/ui';
 import LiveClock from '@/components/ui/LiveClock.astro';
 import SocialIcon from '@/components/ui/SocialIcon.astro';
 import { MapPin, X, ChevronRight, Mail, ArrowUpRight } from '@lucide/astro';
 
-const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
+interface Props {
+  lang?: Lang;
+}
+
+const { lang: propLang } = Astro.props;
+const lang = propLang || getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const profile = getProfileConfig(lang);
+
+const highlightedTech = profile.techStack.filter((t) => t.highlight);
 ---
 
 <div id="magnetic-profile-root">
@@ -16,14 +27,14 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
         type="button"
         aria-expanded="false"
         aria-controls="profile-card"
-        aria-label={`查看个人资料 - ${profileConfig.personal.name}`}
-        title={`查看个人资料 - ${profileConfig.personal.name}`}
+        aria-label={`${t('profile.viewProfile')} - ${profile.personal.name}`}
+        title={`${t('profile.viewProfile')} - ${profile.personal.name}`}
         class="profile-open-btn group relative p-1 rounded-2xl border border-neutral-200/80 dark:border-neutral-800/80 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md shadow-lg hover:shadow-2xl hover:border-neutral-300 dark:hover:border-neutral-700 transition-all duration-300 hover:scale-110 cursor-pointer"
       >
         <div class="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden shadow-xs">
           <img
-            src={profileConfig.personal.avatarUrl}
-            alt={profileConfig.personal.name}
+            src={profile.personal.avatarUrl}
+            alt={profile.personal.name}
             class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="eager"
           />
@@ -48,8 +59,8 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
       <div class="flex items-center gap-3 min-w-0">
         <div class="relative shrink-0 w-10 h-10 rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-700 shadow-xs">
           <img
-            src={profileConfig.personal.avatarUrl}
-            alt={profileConfig.personal.name}
+            src={profile.personal.avatarUrl}
+            alt={profile.personal.name}
             class="w-full h-full object-cover"
           />
           <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white dark:border-neutral-900"></span>
@@ -57,20 +68,20 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
         <div class="min-w-0">
           <div class="flex items-center gap-2">
             <span class="text-xs font-bold text-neutral-900 dark:text-white truncate">
-              {profileConfig.personal.name}
+              {profile.personal.name}
             </span>
             <span class="text-[10px] font-medium px-1.5 py-0.2 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/60 shrink-0">
-              开放合作
+              {t('profile.status')}
             </span>
           </div>
           <p class="text-[11px] text-neutral-500 dark:text-neutral-400 truncate">
-            {profileConfig.personal.title}
+            {profile.personal.title}
           </p>
         </div>
       </div>
 
       <div class="shrink-0 flex items-center gap-1 text-xs text-indigo-600 dark:text-indigo-400 font-medium">
-        <span>档案</span>
+        <span>{lang === 'zh' ? '档案' : 'Bio'}</span>
         <ChevronRight class="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
       </div>
     </button>
@@ -92,13 +103,13 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
     <div class="flex items-center justify-between pb-4 border-b border-neutral-100 dark:border-neutral-800/80 mb-5">
       <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60">
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse-subtle"></span>
-        <span>{profileConfig.personal.statusText}</span>
+        <span>{profile.personal.statusText}</span>
       </div>
 
       <button
         id="profile-close"
         type="button"
-        aria-label="关闭个人资料卡片"
+        aria-label={t('profile.close')}
         class="w-7 h-7 rounded-full flex items-center justify-center text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
       >
         <X class="w-4 h-4" />
@@ -110,8 +121,8 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
       <div class="relative shrink-0">
         <div class="w-16 h-16 rounded-2xl overflow-hidden border border-neutral-200 dark:border-neutral-700 shadow-sm">
           <img
-            src={profileConfig.personal.avatarUrl}
-            alt={profileConfig.personal.name}
+            src={profile.personal.avatarUrl}
+            alt={profile.personal.name}
             class="w-full h-full object-cover"
           />
         </div>
@@ -120,17 +131,17 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
 
       <div>
         <h2 class="text-xl font-bold text-neutral-900 dark:text-white mb-0.5">
-          {profileConfig.personal.name}
+          {profile.personal.name}
         </h2>
         <p class="text-xs font-medium text-neutral-500 dark:text-neutral-400">
-          {profileConfig.personal.title}
+          {profile.personal.title}
         </p>
       </div>
     </div>
 
     <!-- Bio Statement -->
     <p class="text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4">
-      {profileConfig.personal.shortBio}
+      {profile.personal.shortBio}
     </p>
 
     <!-- Location & Live Clock -->
@@ -138,14 +149,14 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
       <div class="flex items-center justify-between text-xs mb-2">
         <div class="flex items-center gap-1.5 text-neutral-600 dark:text-neutral-400 font-medium">
           <MapPin class="w-3.5 h-3.5 text-indigo-500" />
-          <span>{profileConfig.personal.location}</span>
+          <span>{profile.personal.location}</span>
         </div>
-        <span class="text-[11px] text-neutral-400 dark:text-neutral-500 font-mono">Asia/Shanghai</span>
+        <span class="text-[11px] text-neutral-400 dark:text-neutral-500 font-mono">{profile.personal.timezone}</span>
       </div>
       <div class="flex items-center justify-between text-xs">
-        <span class="text-neutral-400 dark:text-neutral-500">本地时间</span>
+        <span class="text-neutral-400 dark:text-neutral-500">{t('profile.localTime')}</span>
         <div class="font-mono font-semibold text-neutral-800 dark:text-neutral-200">
-          <LiveClock timezone={profileConfig.personal.timezone} />
+          <LiveClock timezone={profile.personal.timezone} />
         </div>
       </div>
     </div>
@@ -153,10 +164,10 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
     <!-- Social Links Grid -->
     <div class="mb-5">
       <div class="text-[11px] font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2">
-        社交与主页
+        {t('profile.socials')}
       </div>
       <div class="grid grid-cols-2 gap-2">
-        {profileConfig.socials.map((social) => (
+        {profile.socials.map((social) => (
           <a
             href={social.url}
             target="_blank"
@@ -176,7 +187,7 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
     <!-- Core Tech Stack -->
     <div class="mb-6">
       <div class="text-[11px] font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2">
-        核心技术栈
+        {t('profile.techStack')}
       </div>
       <div class="flex flex-wrap gap-1.5">
         {highlightedTech.map((tech) => (
@@ -194,7 +205,7 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
       class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-950 text-xs font-semibold hover:bg-neutral-800 dark:hover:bg-neutral-100 transition-all shadow-xs"
     >
       <Mail class="w-4 h-4" />
-      <span>邮件联系探讨合作</span>
+      <span>{t('profile.contactCta')}</span>
     </a>
   </div>
 </div>
@@ -215,6 +226,9 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
 
     if (!triggerBtns.length || !card || !closeBtn || !backdrop) return;
 
+    const profileCard = card;
+    const profileBackdrop = backdrop;
+
     let isExpanded = false;
 
     function openProfile() {
@@ -223,11 +237,11 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
         btn.setAttribute('aria-expanded', 'true');
       });
 
-      backdrop.classList.remove('opacity-0', 'pointer-events-none');
-      backdrop.classList.add('opacity-100', 'pointer-events-auto');
+      profileBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+      profileBackdrop.classList.add('opacity-100', 'pointer-events-auto');
 
-      card.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
-      card.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+      profileCard.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+      profileCard.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
     }
 
     function closeProfile() {
@@ -236,11 +250,11 @@ const highlightedTech = profileConfig.techStack.filter((t) => t.highlight);
         btn.setAttribute('aria-expanded', 'false');
       });
 
-      backdrop.classList.remove('opacity-100', 'pointer-events-auto');
-      backdrop.classList.add('opacity-0', 'pointer-events-none');
+      profileBackdrop.classList.remove('opacity-100', 'pointer-events-auto');
+      profileBackdrop.classList.add('opacity-0', 'pointer-events-none');
 
-      card.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
-      card.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+      profileCard.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+      profileCard.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
     }
 
     triggerBtns.forEach((btn) => {

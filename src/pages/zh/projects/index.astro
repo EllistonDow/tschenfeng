@@ -6,7 +6,7 @@ import { getProfileConfig } from '@/config/profile';
 import { useTranslations } from '@/i18n/utils';
 import { Layers, ExternalLink, ArrowUpRight, Sparkles } from '@lucide/astro';
 
-const lang = 'en';
+const lang = 'zh';
 const t = useTranslations(lang);
 const profile = getProfileConfig(lang);
 const projects = await getProjectsByLang(lang);

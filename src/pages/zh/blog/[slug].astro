@@ -4,7 +4,7 @@ import { getPostsByLang } from '@/lib/content';
 import PostLayout from '@/layouts/PostLayout.astro';
 
 export async function getStaticPaths() {
-  const posts = await getPostsByLang('en');
+  const posts = await getPostsByLang('zh');
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
@@ -21,7 +21,7 @@ const { Content } = await render(post);
   pubDate={post.data.pubDate}
   updatedDate={post.data.updatedDate}
   tags={post.data.tags}
-  lang="en"
+  lang="zh"
 >
   <Content />
 </PostLayout>

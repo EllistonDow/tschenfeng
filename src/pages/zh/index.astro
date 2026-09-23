@@ -4,17 +4,17 @@ import MagneticProfile from '@/components/profile/MagneticProfile.astro';
 import StreamFeed from '@/components/stream/StreamFeed.astro';
 import { getProfileConfig } from '@/config/profile';
 
-const profile = getProfileConfig('en');
+const profile = getProfileConfig('zh');
 ---
 
 <BaseLayout
   title={profile.site.title}
   description={profile.site.description}
-  lang="en"
+  lang="zh"
 >
   <!-- Single Central Stream Feed with Left Docked Trigger -->
   <div class="relative w-full">
-    <MagneticProfile lang="en" />
-    <StreamFeed lang="en" />
+    <MagneticProfile lang="zh" />
+    <StreamFeed lang="zh" />
   </div>
 </BaseLayout>

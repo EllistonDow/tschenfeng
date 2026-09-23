@@ -1,8 +1,9 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import Badge from '@/components/ui/Badge.astro';
-import { profileConfig } from '@/config/profile';
-import { ArrowLeft, Calendar, Tag, Clock, Share2, Check, ArrowUp, Sparkles, Mail } from '@lucide/astro';
+import { getProfileConfig } from '@/config/profile';
+import { getLangFromUrl, useTranslations, formatDate } from '@/i18n/utils';
+import type { Lang } from '@/i18n/ui';
+import { ArrowLeft, Calendar, Tag, Clock, Share2, Check, ArrowUp, Mail } from '@lucide/astro';
 
 export interface Props {
   title: string;
@@ -10,23 +11,27 @@ export interface Props {
   pubDate: Date;
   updatedDate?: Date;
   tags: string[];
+  lang?: Lang;
 }
 
-const { title, description, pubDate, tags = [] } = Astro.props;
+const { title, description, pubDate, tags = [], lang: propLang } = Astro.props;
 
-const formattedDate = new Intl.DateTimeFormat('zh-CN', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-}).format(pubDate);
+const lang = propLang || getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const profile = getProfileConfig(lang);
+
+const formattedDate = formatDate(pubDate, lang);
+const blogListHref = lang === 'zh' ? '/zh/blog' : '/blog';
 
 // Approximate reading time calculation based on description + default article length
 const estimatedMinutes = Math.max(3, Math.min(8, Math.round((description.length * 15) / 300)));
+const readingTimeText = t('blog.readingTime', { min: estimatedMinutes });
 ---
 
 <BaseLayout
-  title={`${title} | ${profileConfig.personal.name}`}
+  title={`${title} | ${profile.personal.name}`}
   description={description}
+  lang={lang}
   article={{ pubDate, tags }}
 >
   <!-- Reading Progress Bar Fixed at Top -->
@@ -40,22 +45,24 @@ const estimatedMinutes = Math.max(3, Math.min(8, Math.round((description.length 
     <!-- Top Back & Actions Bar -->
     <div class="flex items-center justify-between mb-8">
       <a
-        href="/blog"
+        href={blogListHref}
         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-neutral-200/80 dark:border-neutral-800/80 bg-white/70 dark:bg-neutral-900/70 text-xs font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-all group shadow-xs"
       >
         <ArrowLeft class="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
-        <span>全部文章</span>
+        <span>{t('blog.allPosts')}</span>
       </a>
 
       <button
         id="copy-link-btn"
         type="button"
+        data-copied-text={t('blog.copied')}
+        data-share-text={t('blog.share')}
         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-neutral-200/80 dark:border-neutral-800/80 bg-white/70 dark:bg-neutral-900/70 text-xs font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-all cursor-pointer shadow-xs"
-        title="复制文章链接"
+        title={t('blog.share')}
       >
         <Share2 id="copy-icon-default" class="w-3.5 h-3.5 text-neutral-400" />
         <Check id="copy-icon-success" class="w-3.5 h-3.5 text-emerald-500 hidden" />
-        <span id="copy-text">分享</span>
+        <span id="copy-text">{t('blog.share')}</span>
       </button>
     </div>
 
@@ -85,9 +92,9 @@ const estimatedMinutes = Math.max(3, Math.min(8, Math.round((description.length 
       <div class="flex flex-wrap items-center justify-between gap-4 text-xs text-neutral-500 dark:text-neutral-400 pt-1">
         <div class="flex items-center gap-2.5">
           <div class="w-6 h-6 rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-700 shrink-0">
-            <img src={profileConfig.personal.avatarUrl} alt={profileConfig.personal.name} class="w-full h-full object-cover" />
+            <img src={profile.personal.avatarUrl} alt={profile.personal.name} class="w-full h-full object-cover" />
           </div>
-          <span class="font-medium text-neutral-800 dark:text-neutral-200">{profileConfig.personal.name}</span>
+          <span class="font-medium text-neutral-800 dark:text-neutral-200">{profile.personal.name}</span>
           <span class="text-neutral-300 dark:text-neutral-700">·</span>
           <span class="inline-flex items-center gap-1 font-mono">
             <Calendar class="w-3.5 h-3.5" />
@@ -97,7 +104,7 @@ const estimatedMinutes = Math.max(3, Math.min(8, Math.round((description.length 
 
         <span class="inline-flex items-center gap-1 font-mono text-neutral-400 dark:text-neutral-500">
           <Clock class="w-3.5 h-3.5" />
-          <span>约 {estimatedMinutes} 分钟阅读</span>
+          <span>{readingTimeText}</span>
         </span>
       </div>
     </header>
@@ -113,15 +120,15 @@ const estimatedMinutes = Math.max(3, Math.min(8, Math.round((description.length 
       <div class="p-5 sm:p-6 rounded-3xl border border-neutral-200/80 dark:border-neutral-800/80 bg-neutral-50/50 dark:bg-neutral-900/50 backdrop-blur-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div class="flex items-center gap-3.5">
           <div class="w-12 h-12 rounded-2xl overflow-hidden border border-neutral-200 dark:border-neutral-700 shadow-xs shrink-0">
-            <img src={profileConfig.personal.avatarUrl} alt={profileConfig.personal.name} class="w-full h-full object-cover" />
+            <img src={profile.personal.avatarUrl} alt={profile.personal.name} class="w-full h-full object-cover" />
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <span class="text-sm font-bold text-neutral-900 dark:text-white">{profileConfig.personal.name}</span>
+              <span class="text-sm font-bold text-neutral-900 dark:text-white">{profile.personal.name}</span>
               <span class="text-[10px] px-1.5 py-0.2 rounded-md bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-medium">Author</span>
             </div>
             <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5 line-clamp-1">
-              {profileConfig.personal.title}
+              {profile.personal.title}
             </p>
           </div>
         </div>
@@ -131,18 +138,18 @@ const estimatedMinutes = Math.max(3, Math.min(8, Math.round((description.length 
           class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-950 text-xs font-semibold hover:bg-neutral-800 dark:hover:bg-neutral-100 transition-all shadow-xs shrink-0"
         >
           <Mail class="w-3.5 h-3.5" />
-          <span>探讨交流</span>
+          <span>{t('blog.discuss')}</span>
         </a>
       </div>
 
       <!-- Navigation & Back To Top -->
       <div class="flex items-center justify-between text-xs font-medium text-neutral-500 dark:text-neutral-400 pt-2">
         <a
-          href="/blog"
+          href={blogListHref}
           class="inline-flex items-center gap-1.5 hover:text-neutral-900 dark:hover:text-white transition-colors"
         >
           <ArrowLeft class="w-3.5 h-3.5" />
-          <span>返回文章目录</span>
+          <span>{t('blog.allPosts')}</span>
         </a>
 
         <button
@@ -150,7 +157,7 @@ const estimatedMinutes = Math.max(3, Math.min(8, Math.round((description.length 
           type="button"
           class="inline-flex items-center gap-1 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer"
         >
-          <span>回到顶部</span>
+          <span>{t('blog.backToTop')}</span>
           <ArrowUp class="w-3.5 h-3.5" />
         </button>
       </div>
@@ -163,12 +170,13 @@ const estimatedMinutes = Math.max(3, Math.min(8, Math.round((description.length 
     // 1. Reading progress bar
     const bar = document.getElementById('reading-progress-bar');
     if (bar) {
+      const progressBar = bar;
       function updateProgress() {
         const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
         if (totalHeight <= 0) return;
         const progress = Math.min(100, Math.max(0, (window.scrollY / totalHeight) * 100));
-        bar.style.width = `${progress}%`;
-        bar.style.opacity = progress > 1 ? '1' : '0';
+        progressBar.style.width = `${progress}%`;
+        progressBar.style.opacity = progress > 1 ? '1' : '0';
       }
 
       window.addEventListener('scroll', updateProgress, { passive: true });
@@ -190,16 +198,19 @@ const estimatedMinutes = Math.max(3, Math.min(8, Math.round((description.length 
     const copyText = document.getElementById('copy-text');
 
     if (copyBtn && defaultIcon && successIcon && copyText) {
+      const copiedStr = copyBtn.getAttribute('data-copied-text') || 'Copied!';
+      const shareStr = copyBtn.getAttribute('data-share-text') || 'Share';
+
       copyBtn.addEventListener('click', async () => {
         try {
           await navigator.clipboard.writeText(window.location.href);
           defaultIcon.classList.add('hidden');
           successIcon.classList.remove('hidden');
-          copyText.textContent = '已复制!';
+          copyText.textContent = copiedStr;
           setTimeout(() => {
             defaultIcon.classList.remove('hidden');
             successIcon.classList.add('hidden');
-            copyText.textContent = '分享';
+            copyText.textContent = shareStr;
           }, 2000);
         } catch (err) {
           // Fallback

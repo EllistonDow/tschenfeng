@@ -6,7 +6,7 @@ import { getProfileConfig } from '@/config/profile';
 import { useTranslations, formatDate } from '@/i18n/utils';
 import { Calendar, Tag, ArrowRight, Rss } from '@lucide/astro';
 
-const lang = 'en';
+const lang = 'zh';
 const t = useTranslations(lang);
 const profile = getProfileConfig(lang);
 const posts = await getPostsByLang(lang);
@@ -33,7 +33,7 @@ const posts = await getPostsByLang(lang);
       </div>
 
       <a
-        href="/rss.xml"
+        href="/zh/rss.xml"
         target="_blank"
         rel="noopener"
         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white/70 dark:bg-neutral-900/70 text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-neutral-300 dark:hover:border-neutral-700 transition-colors shrink-0 shadow-xs"
@@ -47,7 +47,7 @@ const posts = await getPostsByLang(lang);
     <div class="space-y-4">
       {posts.map((post) => (
         <article class="bento-card p-6 transition-all group">
-          <a href={`/blog/${post.slug}`} class="block">
+          <a href={`/zh/blog/${post.slug}`} class="block">
             <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-2">
               <h2 class="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                 {post.data.title}

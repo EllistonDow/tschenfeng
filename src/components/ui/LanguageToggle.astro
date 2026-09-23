@@ -1,0 +1,28 @@
+---
+import { Globe } from '@lucide/astro';
+import { getLangFromUrl, getLocalizedPath } from '@/i18n/utils';
+import type { Lang } from '@/i18n/ui';
+
+interface Props {
+  currentLang?: Lang;
+}
+
+const { currentLang: propLang } = Astro.props;
+const currentLang = propLang || getLangFromUrl(Astro.url);
+const targetLang = currentLang === 'zh' ? 'en' : 'zh';
+const targetPath = getLocalizedPath(Astro.url.pathname, targetLang);
+
+const label = currentLang === 'zh' ? 'EN' : '中文';
+const ariaLabel = currentLang === 'zh' ? 'Switch to English' : '切换至中文';
+const title = currentLang === 'zh' ? 'Switch to English' : '切换至中文';
+---
+
+<a
+  href={targetPath}
+  aria-label={ariaLabel}
+  title={title}
+  class="relative inline-flex items-center justify-center gap-1.5 h-9 px-2.5 rounded-xl border border-neutral-200/90 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:border-neutral-300 dark:hover:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800/80 transition-all cursor-pointer shadow-xs text-xs font-medium"
+>
+  <Globe class="w-3.5 h-3.5 text-neutral-500 dark:text-neutral-400" />
+  <span class="tracking-tight font-semibold">{label}</span>
+</a>

@@ -1,27 +1,38 @@
 ---
-import { profileConfig } from '@/config/profile';
+import { getProfileConfig } from '@/config/profile';
+import { getLangFromUrl } from '@/i18n/utils';
+import type { Lang } from '@/i18n/ui';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang: propLang } = Astro.props;
+const lang = propLang || getLangFromUrl(Astro.url);
+const profile = getProfileConfig(lang);
 
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
-  "name": profileConfig.personal.name,
-  ...(profileConfig.personal.nativeName ? { "alternateName": profileConfig.personal.nativeName } : {}),
-  "jobTitle": profileConfig.personal.title,
-  "url": profileConfig.site.url,
-  "image": profileConfig.personal.avatarUrl,
-  "sameAs": profileConfig.socials.map((s) => s.url).filter((u) => u.startsWith('http')),
-  "description": profileConfig.personal.shortBio,
+  "name": profile.personal.name,
+  ...(profile.personal.nativeName ? { "alternateName": profile.personal.nativeName } : {}),
+  "jobTitle": profile.personal.title,
+  "url": profile.site.url,
+  "image": profile.personal.avatarUrl,
+  "sameAs": profile.socials.map((s) => s.url).filter((u) => u.startsWith('http')),
+  "description": profile.personal.shortBio,
 };
 
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": profileConfig.site.title,
-  "url": profileConfig.site.url,
-  "description": profileConfig.site.description,
+  "name": profile.site.title,
+  "url": profile.site.url,
+  "description": profile.site.description,
+  "inLanguage": lang === 'zh' ? 'zh-CN' : 'en-US',
   "author": {
     "@type": "Person",
-    "name": profileConfig.personal.name
+    "name": profile.personal.name
   }
 };
 ---
